@@ -16,26 +16,33 @@ function Counter() {
   const date = new Date();
   date.setDate(date.getDate() + count);
   const [step, setStep] = useState(1);
-  const handleStepMinus = () => setStep((s) => s - 1);
-  const handleStepPlus = () => setStep((s) => s + 1);
+  function handleReset() {
+    setCount(0);
+    setStep(0);
+  }
   return (
     <>
       <div>
         <div className="step">
-          <button className="stepMinus" onClick={handleStepMinus}>
-            -
-          </button>
+          <input
+            type="range"
+            min="0"
+            max="10"
+            value={step}
+            onChange={(e) => setStep(Number(e.target.value))}
+          ></input>
           <span>Step: {step}</span>
-          <button className="stepPlus" onClick={handleStepPlus}>
-            +
-          </button>
         </div>
 
         <div className="count">
           <button className="minus" onClick={handleMinus}>
             -
           </button>
-          <span>Count: {count}</span>
+          <input
+            type="text"
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          ></input>
           <button className="plus" onClick={handlePlus}>
             +
           </button>
@@ -50,6 +57,13 @@ function Counter() {
               : `${Math.abs(count)} days ago was `}
           </span>
           <span>{date.toDateString()}</span>
+        </div>
+        <div>
+          {count > 0 || step !== 1 ? (
+            <button onClick={handleReset}>Reset</button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>
